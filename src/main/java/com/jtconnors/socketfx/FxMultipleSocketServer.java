@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Jim Connors
+ * Copyright (c) 2019, Jim Connors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package socketfx;
+package com.jtconnors.socketfx;
 
 import com.jtconnors.socket.Constants;
 import com.jtconnors.socket.DebugFlags;

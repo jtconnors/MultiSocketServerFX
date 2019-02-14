@@ -1,5 +1,5 @@
 
-module MultiSocketServerFX {
+module multisocketserverfx {
     requires com.jtconnors.socket;
     requires java.base;
     requires java.logging;
@@ -7,6 +7,6 @@ module MultiSocketServerFX {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
-    exports multisocketserverfx;
-    opens multisocketserverfx to javafx.fxml;
+    exports com.jtconnors.multisocketserverfx;
+    opens com.jtconnors.multisocketserverfx to javafx.fxml;
 }
