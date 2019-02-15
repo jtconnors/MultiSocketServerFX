@@ -20,7 +20,7 @@ Of note, the following maven goals can be executed:
    - ```mvn clean```
    - ```mvn dependency:copy-dependencies``` - to pull down dependent ```javafx``` and ```com.jtconnors.socket``` modules
    - ```mvn compile``` - to build the application
-   - ```mvn jar:jar``` - to create the ```MultiSocketServerFX``` module as a jar file
+   - ```mvn package``` - to create the ```MultiSocketServerFX``` module as a jar file
    - ```mvn exec:exec``` to run the application
    
 Furthermore, 3 additional ```.BAT``` files are provided:
