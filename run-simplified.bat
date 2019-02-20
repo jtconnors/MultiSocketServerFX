@@ -13,7 +13,10 @@ SET MODPATH=%TARGET%;%REPO%com\jtconnors\com.jtconnors.socket\11.0.3\com.jtconno
 REM
 REM Have to manually specify main class via jar --update until
 REM maven-jar-plugin 3.1.2+ is released
-REM
+ECHO
+ECHO Did you run 'mvn jar:jar' first?
+ECHO
+
 jar --main-class %MAINCLASS% --update --file %TARGET%
 
 java --module-path %MODPATH% -m %MAINMODULE%
