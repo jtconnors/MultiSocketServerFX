@@ -23,13 +23,22 @@ Of note, the following maven goals can be executed:
    - ```mvn package``` - to create the ```MultiSocketServerFX``` module as a jar file
    - ```mvn exec:java``` to run the application
    
-Furthermore, 3 additional ```.BAT``` files are provided:
-   - ```run.bat``` - batch file to run the applications from the module path
-   - ```run-simplified.bat``` - alternative batch file to run the application, determines main class from ```MultiSocketServerFX``` module
-   - ```link.bat``` - creates a runtime image using the ```jlink``` utility
-   
-Note:  these scripts will have to be slightly modified to account for where they are ultimately placed in your filesystem
-   
+Furthermore, additional ```.sh``` and ```.ps1``` files are provided in the ```sh/```
+and ```ps1\``` directories respectively:
+   - ```sh/run.sh``` or ```ps1\run.ps1``` - script file to run the application from the module path
+   - ```sh/run-simplified.sh``` or ```ps1\run-simplified.ps1``` - alternative script file to run the application, determines main class from ```SocketClientFX``` module
+   - ```sh/link.sh``` or ```ps1\link.ps1``` - creates a runtime image using the ```jlink``` utility
+   - ```sh/create-image.sh``` or ```ps1\create-image.ps1``` - creates a native package image of application using JEP-343 jpackage tool
+   - ```sh/create-dmg-installer.sh``` - creates a native MacOS dmg installer of this application using JEP-343 jpackage tool
+   - ```ps1\create-exe-installer.ps1``` - creates a native Windows EXE installer of this application using JEP-343 jpackage tool
+   - ```ps1\create-msi-installer.ps1``` - creates a native Windows MSI installer of this application using JEP-343 jpackage tool
+
+Notes:
+   - These scripts have a few available command-line options.  To print out
+the options, add ```-?``` or ```--help``` as an argument to any script.
+   - These scripts share common properties that can be found in ```env.sh``` or ```env.ps1```.  These may need to be slightly modified to match  your specific configuration.
+   - In order to generate ```EXE``` or ```MSI``` installers for Windows, ISSC and/or WiX toolkits must be installed respectively and placed on the %PATH% variable.
+
 See also:
 
 - SocketClientFX: https://github.com/jtconnors/SocketClientFX
