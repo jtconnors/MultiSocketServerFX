@@ -16,15 +16,16 @@ PROJECTDIR=..
 # native platform
 #
 PLATFORM=mac
-INSTALLER_TYPE=dmg
 
 #
 # Application specific variables
 #
 PROJECT=MultiSocketServerFX
+VERSION=11.0
 MAINMODULE=multisocketserverfx
 MAINCLASS=com.jtconnors.multisocketserverfx.MultiSocketServerFX
-MAINJAR=MultiSocketServerFX-11.0.jar
+MAINJAR=$PROJECT-$VERSION.jar
+INSTALLERNAME=$PROJECT-$VERSION
 LAUNCHER=$PROJECT
 
 #
