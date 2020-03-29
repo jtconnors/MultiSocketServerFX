@@ -1,9 +1,25 @@
 
+# 
+# JAVA_HOME environment variable must be set either externally in your
+# environment or internally here by uncommenting out the line
+# below and assiging it the location of a valid JDK 14 runtime.
 #
-# Location of JDK with jpackage utility.  We defult to the user's Download
-# directory.  If it's in a different place, this variable must be changed.
+#export JAVA_HOME="~/IDE/jdk-14.jdk/Contents/Home"
+
 #
-JPACKAGE_HOME=~/Downloads/jdk-13.jdk/Contents/Home
+# Until the jpackage module API is formalized, each JDK release (starting with
+# JDK 14), will go through refinements meaning there may be incompatibilities.
+# Until the API is cast in stone, we'll check to make sure the JDK version
+# in use matches the EXPECTED_JDK_VERSION defined below
+#
+EXPECTED_JDK_VERSION="14"
+
+#
+# Location of JDK with jpackage utility. This is here for legacy reasons.
+# First prototype required a separate JDK build.  Starting with JDK 14,
+# it's built into the standard JDK.
+#
+JPACKAGE_HOME=$JAVA_HOME
 
 #
 # Unless these script files have been deliberately moved, the parent
@@ -21,7 +37,7 @@ PLATFORM=mac
 # Application specific variables
 #
 PROJECT=MultiSocketServerFX
-VERSION=11.0
+VERSION=14.0
 MAINMODULE=multisocketserverfx
 MAINCLASS=com.jtconnors.multisocketserverfx.MultiSocketServerFX
 MAINJAR=$PROJECT-$VERSION.jar
@@ -58,15 +74,31 @@ INSTALLER=installer
 #
 EXTERNAL_MODULES=(
     "$REPO/com/jtconnors/com.jtconnors.socket/11.0.3/com.jtconnors.socket-11.0.3.jar"
-    "$REPO/org/openjfx/javafx-base/11.0.1/javafx-base-11.0.1.jar"
-    "$REPO/org/openjfx/javafx-controls/11.0.1/javafx-controls-11.0.1.jar"
-    "$REPO/org/openjfx/javafx-fxml/11.0.1/javafx-fxml-11.0.1.jar"
-    "$REPO/org/openjfx/javafx-graphics/11.0.1/javafx-graphics-11.0.1.jar"
-    "$REPO/org/openjfx/javafx-base/11.0.1/javafx-base-11.0.1-$PLATFORM.jar"
-    "$REPO/org/openjfx/javafx-controls/11.0.1/javafx-controls-11.0.1-$PLATFORM.jar"
-    "$REPO/org/openjfx/javafx-fxml/11.0.1/javafx-fxml-11.0.1-$PLATFORM.jar"
-    "$REPO/org/openjfx/javafx-graphics/11.0.1/javafx-graphics-11.0.1-$PLATFORM.jar"
+    "$REPO/org/openjfx/javafx-base/14/javafx-base-14.jar"
+    "$REPO/org/openjfx/javafx-controls/14/javafx-controls-14.jar"
+    "$REPO/org/openjfx/javafx-fxml/14/javafx-fxml-14.jar"
+    "$REPO/org/openjfx/javafx-graphics/14/javafx-graphics-14.jar"
+    "$REPO/org/openjfx/javafx-base/14/javafx-base-14-$PLATFORM.jar"
+    "$REPO/org/openjfx/javafx-controls/14/javafx-controls-14-$PLATFORM.jar"
+    "$REPO/org/openjfx/javafx-fxml/14/javafx-fxml-14-$PLATFORM.jar"
+    "$REPO/org/openjfx/javafx-graphics/14/javafx-graphics-14-$PLATFORM.jar"
 )
+
+#
+# Create a module-path for the java command.  It either includes the classes
+# in the $TARGET directory or the $TARGET/$MAINJAR (if it exists) and the
+# $EXTERNAL_MODULES defined in env.sh.
+#
+if [ -f $PROJECTDIR/$TARGET/$MAINJAR ]
+then
+	MODPATH=$TARGET/$MAINJAR
+else
+	MODPATH=$TARGET
+fi
+for ((i=0; i<${#EXTERNAL_MODULES[@]}; i++ ))
+do
+    MODPATH=${MODPATH}":""${EXTERNAL_MODULES[$i]}"
+done
 
 #
 # Function to print command-line options to standard output
@@ -148,11 +180,41 @@ then
 fi
 
 #
+# Check if JAVA_HOME is both set and assigned to a valid Path
+#
+if [ -z $JAVA_HOME ]
+then
+    echo "JAVA_HOME Environment Variable is not set. Set the JAVA_HOME variable to a vaild JDK runtime location in your environment or uncomment and edit the 'export JAVA_HOME=' statement at the beginning of the sh/env.sh file." 
+	exit 1
+elif [ ! -d $JAVA_HOME ]
+then
+    echo "Path for JAVA_HOME \"$JAVA_HOME\" does not exist. Set the JAVA_HOME variable to a vaild JDK runtime location in your environment or uncomment and edit the 'export JAVA_HOME=' statement at the beginning of the sh\env.sh file."
+	exit 1
+fi
+
+#
+# Check to make sure we have the proper Java Version
+#
+java_version_output=`$JAVA_HOME/bin/java -version 2>&1`
+jdk_version_unfiltered=`echo $java_version_output | awk -F" " '{print $3}'`
+# Some versions return the Java version in double quotes ("").  Git rid of
+# them for a proper comparison.
+jdk_version_untruncated=`echo $jdk_version_unfiltered | sed 's/"//g'`
+# Truncate anything after major release i.e. 14.0.2 => 14, 11-redhat.0.1 => 11
+jdk_version=`echo $jdk_version_untruncated | cut -d"." -f1 | cut -d"-" -f1`
+if [ "$jdk_version" != "$EXPECTED_JDK_VERSION" ]
+then
+    echo "JDK version '$jdk_version' does not match expected version: '$EXPECTED_JDK_VERSION'. JAVA_HOME should be set to a JDK $EXPECTED_JDK_VERSION implementation."
+	exit 1
+fi
+
+
+#
 # Check if $JPACKAGE_HOME exists
 #
 if [ ! -d $JPACKAGE_HOME ]
 then
-	echo jpackage home "$JPACKAGE_HOME" does not exist. Edit JPACKAGE_HOME variable in sh/env.sh
+	echo "jpackage home \"$JPACKAGE_HOME\" does not exist. Edit JPACKAGE_HOME variable in sh/env.sh"
 	exit 1
 fi
 
