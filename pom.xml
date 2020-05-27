@@ -65,13 +65,16 @@
                         </fileset>
                         <fileset>
                             <directory>.</directory>
-						    <includes>
-                                <include>*.dmg</include>
-								<include>*.exe</include>
-								<include>*.msi</include>
-						    </includes>
+                                <includes>
+                                    <include>*.deb</include>
+                                    <include>*.dmg</include>
+                                    <include>*.exe</include>
+                                    <include>*.msi</include>
+                                    <include>*.pkg</include>
+                                    <include>*.rpm</include>
+                                </includes>
                         </fileset>
-						<fileset>
+                        <fileset>
                             <directory>${project.artifactId}</directory>
                         </fileset>
                     </filesets>

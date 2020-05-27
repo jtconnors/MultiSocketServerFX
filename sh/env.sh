@@ -1,10 +1,13 @@
 
 # 
 # JAVA_HOME environment variable must be set either externally in your
-# environment or internally here by uncommenting out the line
+# environment or internally here by uncommenting out one of the lines
 # below and assiging it the location of a valid JDK 14 runtime.
 #
+# MacOS example
 #export JAVA_HOME="~/IDE/jdk-14.jdk/Contents/Home"
+# Linux Example
+#export JAVA_HOME="~/jdk-14"
 
 #
 # Until the jpackage module API is formalized, each JDK release (starting with
@@ -29,9 +32,20 @@ JPACKAGE_HOME=$JAVA_HOME
 PROJECTDIR=..
 
 #
-# native platform
+# Determine Operating System platform. Currently only MacOS (PLATFORM=mac)
+# and Linux (PLATFORM=linux) are supported.
 #
-PLATFORM=mac
+case "$(uname)" in
+	Darwin)
+		PLATFORM=mac
+		;;
+	Linux)
+		PLATFORM=linux
+		;;
+	*)
+		echo "Only x86_64 versions of MacOS or Linux supported, '$(uname)' unavailable."
+	exit 1
+esac
 
 #
 # Application specific variables
