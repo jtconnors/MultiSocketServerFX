@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.jtconnors.multisocketserverfx;
 
 import com.jtconnors.socket.SocketListener;
@@ -19,6 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+
 import com.jtconnors.socketfx.FxMultipleSocketServer;
 
 /**
@@ -49,7 +46,8 @@ public class FXMLDocumentController implements Initializable {
     private ObservableList<String> rcvdMsgsData;
 
     private FxMultipleSocketServer socketServer;
-    private ListView lastSelectedListView;
+    private ListView<String> lastSelectedListView;
+    private Tooltip portTooltip;
 
     public enum ConnectionDisplayState {
 
@@ -134,6 +132,18 @@ public class FXMLDocumentController implements Initializable {
             }
         });
 
+        portTooltip = new Tooltip("Port number cannot be modified once\n" +
+        "the first connection attempt is initiated.\n" +
+        "Restart application in order to change.");
+
+        portTextField.textProperty().addListener((obs, oldText, newText) -> {
+            try {
+                Integer.parseInt(newText);
+            } catch (NumberFormatException e) {
+                portTextField.setText(oldText);
+            }
+        });
+
     }
 
     @FXML
@@ -163,6 +173,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleConnectButton(ActionEvent event) {
         displayState(ConnectionDisplayState.WAITING);
+        portTextField.setEditable(false);
+        portTextField.setTooltip(portTooltip);
         socketServer = new FxMultipleSocketServer(new FxSocketListener(),
                 Integer.valueOf(portTextField.getText()));
         new Thread(socketServer).start();

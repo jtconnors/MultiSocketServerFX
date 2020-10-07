@@ -12,7 +12,7 @@ This application is written in Java using the JavaFX API.  It represents the ser
 It is typically used in conjucntion with a client-side JavaFX UI application called ```SocketClientFX```.
 It can be found here: https://github.com/jtconnors/SocketClientFX
 
-This version of the source code is tagged ```1.0-JDK15-maven```.  As its name suggests, it is specific to JDK 15 and can be built with the ```apache maven``` build lifecycle system. It uses the ```jdk.incubator.jpackage``` module utilities whose API has not been finalized and is subject to change.  As such, the scripts contained in this project will insist that JDK 15 be used because subsequent ```jpackage``` releases may be incompatible.
+This version of the source code is tagged ```1.1-JDK15-maven```.  As its name suggests, it is specific to JDK 15 and can be built with the ```apache maven``` build lifecycle system. It uses the ```jdk.incubator.jpackage``` module utilities whose API has not been finalized and is subject to change.  As such, the scripts contained in this project will insist that JDK 15 be used because subsequent ```jpackage``` releases may be incompatible.
 
 This project works on Windows, MacOS or Linux.
 
