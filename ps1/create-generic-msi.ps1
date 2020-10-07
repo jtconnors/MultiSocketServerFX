@@ -34,6 +34,8 @@ Set-Variable -Name JPACKAGE_ARGS -Value @(
     '--type',
     'msi',
     '--vendor',
+    """$VENDOR_STRING""",
+    '--vendor',
     """jpackage-generated""",
     '--runtime-image',
     """$env:JAVA_HOME"""
