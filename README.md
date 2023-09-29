@@ -5,11 +5,11 @@ This application is written in Java using the JavaFX API.  It represents the ser
 
    - connect to a socket at a configurable port
    - handle multiple client socket connections at the same time and indicate the number of connections
-   - receive text messages from a connected socket
+   - receive text messages from connected sockets
    - send text messages to all connected sockets
    - retrieve sent and received messages
 
-It is typically used in conjucntion with a client-side JavaFX UI application called ```SocketClientFX```.
+It is typically used in conjunction with a client-side JavaFX UI application called ```SocketClientFX```.
 It can be found here: https://github.com/jtconnors/SocketClientFX
 
 This version of the source code is tagged ```1.1-JDK21-maven```.  As its name suggests, it is specific to JDK 21 and can be built with the ```apache maven``` build lifecycle system. Since JDK 16, the jpackage API has been standardized, and as such the scripts contained in this project could be modified to build with and run with JDKs from JDK 16 onwards.  Subsequent releases to JDK 21 have not been tested with this version of the project.

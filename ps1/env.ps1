@@ -2,9 +2,9 @@
 #
 # JAVA_HOME environment variable must be set either externally in the Poweshell
 # environment or internally here by uncommenting out the Set-Variable line
-# below and assiging it the location of a valid JDK 17 runtime.
+# below and assiging it the location of a valid JDK 21 runtime.
 #
-#$env:JAVA_HOME = 'D:\openjdk\jdk-17'
+#$env:JAVA_HOME = 'D:\openjdk\jdk-21'
 
 #
 # Until the jpackage module API is formalized, each JDK release (starting with
@@ -12,7 +12,7 @@
 # Until the API is cast in stone, we'll check to make sure the JDK version
 # in use matches the EXPECTED_JDK_VERSION defined below
 #
-Set-Variable -Name EXPECTED_JDK_VERSION -Value "17"
+Set-Variable -Name EXPECTED_JDK_VERSION -Value "21"
 
 #
 # Location of JDK with jpackage utility. This is here for legacy reasons.
@@ -43,7 +43,7 @@ Set-Variable -Name PLATFORM -Value win
 # Application specific variables
 #
 Set-Variable -Name PROJECT -Value MultiSocketServerFX
-Set-Variable -Name VERSION -Value "17.0"
+Set-Variable -Name VERSION -Value "21.0"
 Set-Variable -Name MAINMODULE -Value multisocketserverfx
 Set-Variable -Name MAINCLASS -Value com.jtconnors.multisocketserverfx.MultiSocketServerFX
 Set-Variable -Name MAINJAR -Value $PROJECT-$VERSION.jar
@@ -77,18 +77,18 @@ Set-Variable -Name INSTALLER -Value installer
 
 #
 # Required external modules for this application
-# For JDK 17 javafx modules, make sure to use version 17.0.0.1 or greater
+# For JDK 21 javafx modules, make sure to use version 21 or greater
 #
 Set-Variable -Name EXTERNAL_MODULES -Value @(
     "$REPO\com\jtconnors\com.jtconnors.socket\11.0.3\com.jtconnors.socket-11.0.3.jar",
-    "$REPO\org\openjfx\javafx-base\17.0.0.1\javafx-base-17.0.0.1.jar",
-    "$REPO\org\openjfx\javafx-controls\17.0.0.1\javafx-controls-17.0.0.1.jar",
-    "$REPO\org\openjfx\javafx-fxml\17.0.0.1\javafx-fxml-17.0.0.1.jar",
-    "$REPO\org\openjfx\javafx-graphics\17.0.0.1\javafx-graphics-17.0.0.1.jar",
-    "$REPO\org\openjfx\javafx-base\17.0.0.1\javafx-base-17.0.0.1-$PLATFORM.jar",
-    "$REPO\org\openjfx\javafx-controls\17.0.0.1\javafx-controls-17.0.0.1-$PLATFORM.jar",
-    "$REPO\org\openjfx\javafx-fxml\17.0.0.1\javafx-fxml-17.0.0.1-$PLATFORM.jar",
-    "$REPO\org\openjfx\javafx-graphics\17.0.0.1\javafx-graphics-17.0.0.1-$PLATFORM.jar"
+    "$REPO\org\openjfx\javafx-base\21\javafx-base-21.jar",
+    "$REPO\org\openjfx\javafx-controls\21\javafx-controls-21.jar",
+    "$REPO\org\openjfx\javafx-fxml\21\javafx-fxml-21.jar",
+    "$REPO\org\openjfx\javafx-graphics\21\javafx-graphics-21.jar",
+    "$REPO\org\openjfx\javafx-base\21\javafx-base-21-$PLATFORM.jar",
+    "$REPO\org\openjfx\javafx-controls\21\javafx-controls-21-$PLATFORM.jar",
+    "$REPO\org\openjfx\javafx-fxml\21\javafx-fxml-21-$PLATFORM.jar",
+    "$REPO\org\openjfx\javafx-graphics\21\javafx-graphics-21-$PLATFORM.jar"
 )
 
 #
@@ -214,9 +214,9 @@ if (-not (Test-Path $PROJECTDIR)) {
 # Check if $env:JAVA_HOME is both set and assigned to a valid Path
 #
 if ($env:JAVA_HOME -eq $null) {
-    GoodBye "env:JAVA_HOME Environment Variable is not set. Set the env:JAVA_HOME variable to a vaild JDK runtime location in your Powershell environment or uncomment and edit the 'set-Variable' statement at the beginning of the ps1\env.ps1 file." $LASTEXITCODE 
+    GoodBye "`$env:JAVA_HOME Environment Variable is not set. Set the `$env:JAVA_HOME variable to a vaild JDK runtime location in your Powershell environment or uncomment and edit the 'set-Variable' statement at the beginning of the ps1\env.ps1 file." $LASTEXITCODE 
 } elseif (-not (Test-Path $env:JAVA_HOME)) {
-	GoodBye "Path for Java Home 'env:JAVA_HOME' does not exist. Set the env:JAVA_HOME variable to a vaild JDK runtime location in your Powershell environment or uncomment and edit the 'set-Variable' statement at the beginning of the ps1\env.ps1 file." $LASTEXITCODE 
+	GoodBye "Path for Java Home `$env:JAVA_HOME does not exist. Set the `$env:JAVA_HOME variable to a vaild JDK runtime location in your Powershell environment or uncomment and edit the 'set-Variable' statement at the beginning of the ps1\env.ps1 file." $LASTEXITCODE 
 }
 
 #
@@ -235,7 +235,7 @@ $jdk_version_unfiltered = $java_version_output.Split(" ")[2].split(".-")[0]
 # them for a proper comparison.
 $jdk_version = $jdk_version_unfiltered -replace '["]'
 if ($jdk_version -ne $EXPECTED_JDK_VERSION) {
-    GoodBye "JDK version '$jdk_version' does not match expected version: '$EXPECTED_JDK_VERSION'. JAVA_HOME should be set to a JDK $EXPECTED_JDK_VERSION implementation." $LASTEXITCODE
+    GoodBye "JDK version '$jdk_version' does not match expected version: '$EXPECTED_JDK_VERSION'. `$env:JAVA_HOME should be set to a JDK $EXPECTED_JDK_VERSION implementation." $LASTEXITCODE
 }
 
 cd $PROJECTDIR
